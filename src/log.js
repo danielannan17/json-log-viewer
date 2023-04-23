@@ -8,7 +8,10 @@ let _transform = 'unloaded';
 
 function loadTransform(_fs=fs) {
   if (_transform === 'unloaded') {
-    const transformFile = path.join(os.homedir(), '.json-log-viewer');
+    let transformFile = path.join(process.cwd(), '.json-log-viewer');
+    if (!_fs.existsSync(transformFile)) {
+      transformFile = path.join(os.homedir(), '.json-log-viewer');
+    }
     if (!_fs.existsSync(transformFile)) {
       return;
     }
@@ -54,9 +57,13 @@ function readLog(file, reader=fs) {
   const contents = reader.readFileSync(file).toString();
   const lines = _.compact(contents.split('\n').filter(line => line).map(parse));
 
+  //TODO Make this configurable
   return lines.map(line => {
+    // The log preview data + details window heading
     const result = _.pick(line, ['timestamp', 'level', 'message']);
-    const data = _.omit(line, ['timestamp', 'level', 'message']);
+
+    //Removes data from the details page
+    const data = _.omit(line, ['timestamp', 'level']);
     return Object.assign({}, result, { data });
   });
 };

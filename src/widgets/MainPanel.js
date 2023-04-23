@@ -15,7 +15,7 @@ class MainPanel extends BaseWidget {
     super(Object.assign({}, { top: '0', height: '99%', handleKeys: true }, opts));
 
     this.currentPage = opts.currentPage || 1;
-    this.initialRow = opts.initialRow || 0;
+    this.initialRow = opts.initialRow || 0; // Line number of the top row (the first visible row)
     this.colSpacing = opts.colSpacing || 2;
     this.wrap = opts.wrap || true;
     this.row = 0;
@@ -105,8 +105,14 @@ class MainPanel extends BaseWidget {
 
   renderLines(notify=true) {
     this.resetMode();
+    const oldLinesLength = this.lines.length;
     this.rows = this.lines.slice(this.initialRow, this.initialRow + this.height - 2);
     this.update(notify);
+    const diff = this.lines.length - oldLinesLength;
+    if (diff > 0 && this.row > 0) {
+      this.row = this.row + diff;
+      this.initialRow = this.initialRow + diff;
+    }
   }
 
   handleKeyPress(ch, key) {
