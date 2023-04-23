@@ -43,7 +43,7 @@ jv application.log.2017-01-01 --sort -timestamp
 
 ### Configuration
 
-The default expected log format include fields `timestamp`, `level` and `message`. If the log file you're trying to parse doesn't include those fields, you can create a config file on your HOME path called `.json-log-viewer`.
+The default expected log format include fields `timestamp`, `level` and `message`.  If your log file doesn't include these fields, you can override the default configuration by creating a `.json-log-viewer` file in either your HOME path or current working directory. It's worth noting that if you create a config.json file in your current working directory, it will take precedence over any file located in your HOME path."
 
 For example, if your log lines look like this:
 
