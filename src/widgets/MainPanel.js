@@ -505,8 +505,10 @@ class MainPanel extends BaseWidget {
     };
 
     const content = formatRows(
-      this.rows, columns, this.colSpacing, this.pageWidth-1).map(highlight).join('\n');
-    const list = blessed.element({ tags: true, content });
+    this.rows, columns, this.colSpacing, this.pageWidth-1).map(highlight).join('\n');
+    const [existing] = this.children.filter(o => o.type === 'element');
+    const list = existing || blessed.element({ tags: true });
+    list.setContent(content);
     this.append(list);
     this.screen.render();
     if (notify) {
