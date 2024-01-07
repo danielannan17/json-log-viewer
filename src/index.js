@@ -35,8 +35,10 @@ const statusLine = new StatusLine({ screen, mainPanel });
 screen.append(statusLine);
 mainPanel.setCurrent();
 setInterval(function() {
-  mainPanel.loadFile(logFile);
-  statusLine.update();
+  if (mainPanel.mode !== 'filter') {
+    mainPanel.loadFile(logFile);
+    statusLine.update();
+  }
 }, 1000);
 
 screen.render();
